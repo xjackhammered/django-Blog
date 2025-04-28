@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ thought.title }}</title>
+</head>
+<body>
+    <h1>{{ thought.title }}</h1>
+    <p>{{ thought.description }}</p>
+    <p><strong>Category:</strong> {{ thought.category.name }}</p>
+    <small>Posted on: {{ thought.created_at }}</small>
+
+    <hr>
+
+    <h2>Comments:</h2>
+
+    {% for comment in comments %}
+        <div>
+            <p><strong>{{ comment.author }}:</strong> {{ comment.content }}</p>
+            <small>Posted at: {{ comment.time }}</small>
+            <hr>
+        </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+</body>
+</html>

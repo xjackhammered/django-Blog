@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thoughts List</title>
+</head>
+<body>
+    <h1>All Thoughts</h1>
+
+    {% for thought in thoughts %}
+        <div>
+            <h2><a href="{% url 'single' thought.id %}">{{ thought.title }}</a></h2>
+            <p>{{ thought.description|truncatechars:100 }}</p>
+            <p><strong>Category:</strong> {{ thought.category.name }}</p>
+            <small>Posted on: {{ thought.created_at }}</small>
+            <hr>
+        </div>
+    {% empty %}
+        <p>No thoughts posted yet.</p>
+    {% endfor %}
+</body>
+</html>
