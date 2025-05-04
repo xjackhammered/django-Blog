@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Thoughts, Comment
+from .forms import PostForm
 
 # Create your views here.
 
@@ -11,3 +12,12 @@ def single_thought(request,id):
     thought = get_object_or_404(Thoughts, id=id)
     comments = Comment.objects.filter(thoughts=thought)
     return render(request, "post/single.html", {'thought':thought, 'comments':comments})
+
+def createPost(request):
+    form = PostForm()
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("thoughts")
+    return render(request, "post/post_form.html", {"form":form})
