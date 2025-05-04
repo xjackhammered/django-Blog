@@ -2,23 +2,55 @@
 <html>
 <head>
     <title>Thoughts List</title>
+    <style>
+        .home-container{
+            display: flex;
+        }
+    </style>
 </head>
 <body>
-    <h1>All Thoughts</h1>
-    <a href="{% url 'create-post' %}">Create thoughts</a>
+    <div class="home-container">
+        <form method="GET" action="{%url 'thoughts' %}">
+            <input type="text" name="q" placeholder="Search posts">
+        </form>>
 
-    {% for thought in thoughts %}
+
         <div>
-            <h2><a href="{% url 'single' thought.id %}">{{ thought.title }}</a></h2>
-            <p>{{ thought.description|truncatechars:100 }}</p>
-            <p><strong>Category:</strong> {{ thought.category.name }}</p>
-            <a href="{% url 'update-post' thought.id %}">Update</a>
-            <a href="{% url 'delete-post' thought.id %}">Delete</a>
-            <small>Posted on: {{ thought.created_at }}</small>
-            <hr>
+
+            <div>
+                <a href="{% url 'thoughts' %}">All</a>
+            </div>
+            {% for category in categories%}
+            <div>
+        
+                <a href="{% url 'thoughts' %}?q={{category.name}}">{{category.name}}</a>
+                
+            </div>
+            {% endfor %}
         </div>
-    {% empty %}
-        <p>No thoughts posted yet.</p>
-    {% endfor %}
+        
+        </div>
+        
+            <h1>All Thoughts</h1>
+            <a href="{% url 'create-post' %}">Create thoughts</a>
+
+
+
+            {% for thought in thoughts %}
+                <div>
+                    <h3>{{thought_count}} posts regarding this</h3>
+                    <h2><a href="{% url 'single' thought.id %}">{{ thought.title }}</a></h2>
+                    <p>{{ thought.description|truncatechars:100 }}</p>
+                    <p><strong>Category:</strong> {{ thought.category.name }}</p>
+                    <a href="{% url 'update-post' thought.id %}">Update</a>
+                    <a href="{% url 'delete-post' thought.id %}">Delete</a>
+                    <small>Posted on: {{ thought.created_at }}</small>
+                    <hr>
+                </div>
+            {% empty %}
+                <p>No thoughts posted yet.</p>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

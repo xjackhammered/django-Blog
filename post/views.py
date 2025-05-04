@@ -1,12 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Thoughts, Comment
+from django.db.models import Q
+from .models import Thoughts, Comment, Category
 from .forms import PostForm
 
 # Create your views here.
 
 def thoughts_list(request):
-    thoughts = Thoughts.objects.all()
-    return render(request, "post/index.html", {'thoughts': thoughts})
+    if request.GET.get('q') != None:
+        q = request.GET.get('q')
+    else:
+        q = ''
+
+    thoughts = Thoughts.objects.filter(Q(category__name__icontains=q)|Q(title__icontains=q))
+    categories = Category.objects.all()
+    thought_count = thoughts.count()
+
+    return render(request, "post/index.html", {'thoughts': thoughts, 'categories':categories, "thought_count":thought_count})
 
 def single_thought(request,id):
     thought = get_object_or_404(Thoughts, id=id)
