@@ -21,3 +21,20 @@ def createPost(request):
             form.save()
             return redirect("thoughts")
     return render(request, "post/post_form.html", {"form":form})
+
+def updatePost(request, pk):
+    specific_post = Thoughts.objects.get(id=pk)
+    form = PostForm(instance=specific_post)
+
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=specific_post)
+        if form.is_valid():
+            form.save()
+            return redirect("thoughts")
+    return render(request, "post/post_form.html", {"form":form})
+
+
+
+
+
+

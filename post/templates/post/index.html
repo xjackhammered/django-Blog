@@ -5,12 +5,14 @@
 </head>
 <body>
     <h1>All Thoughts</h1>
+    <a href="{% url 'create-post' %}">Create thoughts</a>
 
     {% for thought in thoughts %}
         <div>
             <h2><a href="{% url 'single' thought.id %}">{{ thought.title }}</a></h2>
             <p>{{ thought.description|truncatechars:100 }}</p>
             <p><strong>Category:</strong> {{ thought.category.name }}</p>
+            <a href="{% url 'update-post' thought.id %}">Update</a>
             <small>Posted on: {{ thought.created_at }}</small>
             <hr>
         </div>
