@@ -33,6 +33,15 @@ def updatePost(request, pk):
             return redirect("thoughts")
     return render(request, "post/post_form.html", {"form":form})
 
+def deletePost(request, pk):
+    specific_post = Thoughts.objects.get(id=pk)
+    if request.method == "POST":
+        specific_post.delete()
+        return redirect("thoughts")
+    return render(request, "post/delete.html", {"obj":specific_post})
+    
+
+
 
 
 

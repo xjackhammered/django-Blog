@@ -13,6 +13,7 @@
             <p>{{ thought.description|truncatechars:100 }}</p>
             <p><strong>Category:</strong> {{ thought.category.name }}</p>
             <a href="{% url 'update-post' thought.id %}">Update</a>
+            <a href="{% url 'delete-post' thought.id %}">Delete</a>
             <small>Posted on: {{ thought.created_at }}</small>
             <hr>
         </div>
