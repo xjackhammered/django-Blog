@@ -6,11 +6,12 @@ from .forms import PostForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
 def loginPage(request):
-
+    page = "login"
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -28,7 +29,7 @@ def loginPage(request):
         else:
             messages.error(request, "Username or password does not exist.")
     
-    return render(request, "post/login_register.html")
+    return render(request, "post/login_register.html", {"page":page})
 
 def logoutUser(request):
     logout(request)
