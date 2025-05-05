@@ -5,6 +5,7 @@ from .models import Thoughts, Comment, Category
 from .forms import PostForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -29,6 +30,10 @@ def loginPage(request):
     
     return render(request, "post/login_register.html")
 
+def logoutUser(request):
+    logout(request)
+    return redirect("thoughts")
+
 
 def thoughts_list(request):
     if request.GET.get('q') != None:
@@ -47,6 +52,7 @@ def single_thought(request,id):
     comments = Comment.objects.filter(thoughts=thought)
     return render(request, "post/single.html", {'thought':thought, 'comments':comments})
 
+@login_required(login_url="login")
 def createPost(request):
     form = PostForm()
     if request.method == 'POST':
@@ -56,6 +62,7 @@ def createPost(request):
             return redirect("thoughts")
     return render(request, "post/post_form.html", {"form":form})
 
+@login_required(login_url="login")
 def updatePost(request, pk):
     specific_post = Thoughts.objects.get(id=pk)
     form = PostForm(instance=specific_post)
@@ -67,6 +74,7 @@ def updatePost(request, pk):
             return redirect("thoughts")
     return render(request, "post/post_form.html", {"form":form})
 
+@login_required(login_url="login")
 def deletePost(request, pk):
     specific_post = Thoughts.objects.get(id=pk)
     if request.method == "POST":
