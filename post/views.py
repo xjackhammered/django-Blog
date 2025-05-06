@@ -60,8 +60,9 @@ def thoughts_list(request):
     thoughts = Thoughts.objects.filter(Q(category__name__icontains=q)|Q(title__icontains=q))
     categories = Category.objects.all()
     thought_count = thoughts.count()
+    comments = Comment.objects.all()
 
-    return render(request, "post/index.html", {'thoughts': thoughts, 'categories':categories, "thought_count":thought_count})
+    return render(request, "post/index.html", {'thoughts': thoughts, 'categories':categories, "thought_count": thought_count, "comments":comments})
 
 def single_thought(request,id):
     thought = Thoughts.objects.get(id=id)

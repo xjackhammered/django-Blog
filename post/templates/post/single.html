@@ -3,35 +3,54 @@
 <head>
     <title>{{ thought.title }}</title>
 </head>
+<style>
+    .single-page{
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+    }
+</style>
+
 <body>
-    <h1>{{ thought.title }}</h1>
-    <p>{{ thought.description }}</p>
-    <p><strong>Category:</strong> {{ thought.category.name }}</p>
-    <small>Posted on: {{ thought.created_at }}</small>
-
-    <hr>
-
-
-    <h2>Comments:</h2>
-
-    {% for comment in comments %}
-        <div>
-            <p><strong>{{ comment.user }}:</strong> {{ comment.content }}</p>
-            <small>Posted {{ comment.time|timesince}} ago</small>
-            {% if request.user == comment.user %}
-            <a href="{% url 'delete-comment' comment.id %}">Delete</a>
-            {% endif %}
-            <hr>
-        </div>
-    {% empty %}
-        <p>No comments yet.</p>
-    {% endfor %}
+ <div class="single-page">
+    
     <div>
-        <form method="POST" action="">
-            {% csrf_token %}
-            <input type="text" name="content" placeholder="Your message..." />
-        </form>
+
+    </div>
+    
+    <div>
+        <h1>{{ thought.title }}</h1>
+        <p>{{ thought.description }}</p>
+        <p><strong>Category:</strong> {{ thought.category.name }}</p>
+        <small>Posted on: {{ thought.created_at }}</small>
+
+        <hr>
+
+
+        <h2>Comments:</h2>
+
+        {% for comment in comments %}
+            <div>
+                <p><strong>{{ comment.user }}:</strong> {{ comment.content }}</p>
+                <small>Posted {{ comment.time|timesince}} ago</small>
+                {% if request.user == comment.user %}
+                <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+                {% endif %}
+                <hr>
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+        <div>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="text" name="content" placeholder="Your message..." />
+            </form>
+        </div>
     </div>
 
+    <div>
+        {% include 'post/activity_component.html' %}
+    </div>
+</div>
 </body>
 </html>
