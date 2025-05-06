@@ -10,4 +10,5 @@ urlpatterns = [
     path("create-post/", views.createPost, name="create-post"),
     path("update-post/<int:pk>/", views.updatePost, name="update-post"),
     path("delete-post/<int:pk>/", views.deletePost, name="delete-post"),
+    path("delete-comment/<int:pk>/", views.deleteComment, name="delete-comment")
 ]

@@ -5,3 +5,4 @@ class PostForm(ModelForm):
     class Meta:
         model = Thoughts
         fields = '__all__'
+        exclude = ['host']
