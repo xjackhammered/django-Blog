@@ -11,16 +11,27 @@
 
     <hr>
 
+
     <h2>Comments:</h2>
 
     {% for comment in comments %}
         <div>
-            <p><strong>{{ comment.author }}:</strong> {{ comment.content }}</p>
-            <small>Posted at: {{ comment.time }}</small>
+            <p><strong>{{ comment.user }}:</strong> {{ comment.content }}</p>
+            <small>Posted {{ comment.time|timesince}} ago</small>
+            {% if request.user == comment.user %}
+            <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+            {% endif %}
             <hr>
         </div>
     {% empty %}
         <p>No comments yet.</p>
     {% endfor %}
+    <div>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="Your message..." />
+        </form>
+    </div>
+
 </body>
 </html>

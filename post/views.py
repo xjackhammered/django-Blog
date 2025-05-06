@@ -64,8 +64,17 @@ def thoughts_list(request):
     return render(request, "post/index.html", {'thoughts': thoughts, 'categories':categories, "thought_count":thought_count})
 
 def single_thought(request,id):
-    thought = get_object_or_404(Thoughts, id=id)
-    comments = Comment.objects.filter(thoughts=thought)
+    thought = Thoughts.objects.get(id=id)
+    comments = thought.comment_set.all()
+
+    if request.method == "POST":
+        comment = Comment.objects.create (
+            user = request.user,
+            thoughts = thought,
+            content = request.POST.get('content')
+        )
+        return redirect("single",id=thought.id)
+    
     return render(request, "post/single.html", {'thought':thought, 'comments':comments})
 
 @login_required(login_url="login")
@@ -74,7 +83,9 @@ def createPost(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()
+            thoughts = form.save(commit=False)
+            thoughts.host = request.user
+            thoughts.save()
             return redirect("thoughts")
     return render(request, "post/post_form.html", {"form":form})
 
@@ -99,9 +110,12 @@ def deletePost(request, pk):
     return render(request, "post/delete.html", {"obj":specific_post})
     
 
-
-
-
-
+@login_required(login_url="login")
+def deleteComment(request, pk):
+    comment = Comment.objects.get(id=pk)
+    if request.method == "POST":
+        comment.delete()
+        return redirect("thoughts")
+    return render(request, "post/delete.html", {"obj":comment})
 
 

@@ -20,10 +20,10 @@ class Thoughts(models.Model):
         return self.title
 
 class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     thoughts = models.ForeignKey(Thoughts, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
     content = models.TextField(max_length=200)
-    author = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"Comment by {self.author}"
+        return f"Comment by {self.user}"
