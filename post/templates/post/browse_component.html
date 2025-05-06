@@ -1,0 +1,8 @@
+<div>
+    <a href="{% url 'thoughts' %}">All</a>
+</div>
+{% for category in categories %}
+<div>
+    <a href="{% url 'thoughts' %}?q={{category.name}}">{{category.name}}</a>
+</div>
+{% endfor %}

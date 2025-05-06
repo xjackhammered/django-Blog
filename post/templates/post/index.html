@@ -17,14 +17,7 @@
             <input type="text" name="q" placeholder="Search posts">
         </form>
 
-        <div>
-            <a href="{% url 'thoughts' %}">All</a>
-        </div>
-        {% for category in categories %}
-        <div>
-            <a href="{% url 'thoughts' %}?q={{category.name}}">{{category.name}}</a>
-        </div>
-        {% endfor %}
+        {% include 'post/browse_component.html' %}
     </div>
 
     <!-- Column 2 -->
