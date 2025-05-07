@@ -119,4 +119,13 @@ def deleteComment(request, pk):
         return redirect("thoughts")
     return render(request, "post/delete.html", {"obj":comment})
 
+def userProfile(request,pk):
+    user = User.objects.get(id=pk)
+    thoughts = user.thoughts_set.all()
+    comments = user.comment_set.all()
+    categories = Category.objects.all()
+
+    return render(request, "post/profile.html", {"user": user, "thoughts":thoughts, "comments":comments, "categories":categories})
+
+
 

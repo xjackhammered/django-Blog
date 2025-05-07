@@ -3,7 +3,7 @@
 {% for comment in comments %}
 <div>
 
-    <small>@{{comment.user}} {{comment.time|timesince}}</small><br>
+    <small>@<a href="{% url 'profile' comment.user.id %}">{{comment.user}}</a> {{comment.time|timesince}}</small><br>
     <small>replied to {{comment.thoughts}}</small>
     {% if request.user == comment.user %}
         <a href="{% url 'delete-comment' comment.id %}">Delete</a>
